@@ -64,6 +64,7 @@ class WatcherFSEvents : public Watcher {
 
 	Atomic<FileWatcherFSEvents*> FWatcher;
 	FSEventStreamRef FSStream;
+	dispatch_queue_t DispatchQueue;
 	Uint64 ModifiedFlags{ efswFSEventsModified };
 	bool SanitizeEvents{ false };
 

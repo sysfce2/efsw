@@ -8,13 +8,21 @@
 namespace efsw {
 
 WatcherFSEvents::WatcherFSEvents() :
-	Watcher(), FWatcher( NULL ), FSStream( NULL ), WatcherGen( NULL ) {}
+	Watcher(), FWatcher( NULL ), FSStream( NULL ), DispatchQueue( NULL ), WatcherGen( NULL ) {}
 
 WatcherFSEvents::~WatcherFSEvents() {
 	if ( NULL != FSStream ) {
 		FSEventStreamStop( FSStream );
 		FSEventStreamInvalidate( FSStream );
+		if ( NULL != DispatchQueue ) {
+			dispatch_sync( DispatchQueue, ^{} );
+		}
 		FSEventStreamRelease( FSStream );
+	}
+
+	if ( NULL != DispatchQueue ) {
+		dispatch_release( DispatchQueue );
+		DispatchQueue = NULL;
 	}
 
 	efSAFE_DELETE( WatcherGen );
@@ -43,13 +51,13 @@ void WatcherFSEvents::init() {
 	ctx.release = NULL;
 	ctx.copyDescription = NULL;
 
-	dispatch_queue_t queue = dispatch_queue_create( NULL, NULL );
+	DispatchQueue = dispatch_queue_create( NULL, NULL );
 
 	FSStream =
 		FSEventStreamCreate( kCFAllocatorDefault, &FileWatcherFSEvents::FSEventCallback, &ctx,
 							 CFDirectoryArray, kFSEventStreamEventIdSinceNow, 0., streamFlags );
 
-	FSEventStreamSetDispatchQueue( FSStream, queue );
+	FSEventStreamSetDispatchQueue( FSStream, DispatchQueue );
 
 	FSEventStreamStart( FSStream );
 
