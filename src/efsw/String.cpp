@@ -207,8 +207,14 @@ std::string String::toUtf8() const {
 	std::string output;
 	output.reserve( mString.length() + 1 );
 
-	// Convert
-	Utf32::toUtf8( mString.begin(), mString.end(), std::back_inserter( output ) );
+// Convert
+#if WCHAR_MAX == 0xFFFF
+	// Windows (UTF-16)
+	Utf<16>::toUtf8( mString.begin(), mString.end(), std::back_inserter( output ) );
+#else
+	// Linux (UTF-32)
+	Utf<32>::toUtf8( mString.begin(), mString.end(), std::back_inserter( output ) );
+#endif
 
 	return output;
 }

@@ -562,10 +562,28 @@ Out Utf<32>::EncodeWide( Uint32 codepoint, Out output, wchar_t replacement ) {
 		}
 
 		default: {
-			if ( ( codepoint <= 0xFFFF ) && ( ( codepoint < 0xD800 ) || ( codepoint > 0xDFFF ) ) ) {
-				*output++ = static_cast<wchar_t>( codepoint );
-			} else if ( replacement ) {
-				*output++ = replacement;
+			if ( codepoint <= 0xFFFF ) {
+				// Exclude surrogate range
+				if ( codepoint < 0xD800 || codepoint > 0xDFFF ) {
+					*output++ = static_cast<wchar_t>( codepoint );
+				} else {
+					// Invalid code point -> replacement
+					if ( replacement )
+						*output++ = replacement;
+				}
+			} else if ( codepoint <= 0x10FFFF ) {
+				// Encode surrogate pair
+				codepoint -= 0x10000;
+
+				wchar_t high = 0xD800 + ( codepoint >> 10 );
+				wchar_t low = 0xDC00 + ( codepoint & 0x3FF );
+
+				*output++ = high;
+				*output++ = low;
+			} else {
+				// Invalid Unicode range
+				if ( replacement )
+					*output++ = replacement;
 			}
 			break;
 		}
