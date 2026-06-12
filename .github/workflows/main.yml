@@ -85,7 +85,7 @@ jobs:
     - name: Build
       shell: cmd
       run: |
-        "%MSBUILD_PATH%\MSBuild.exe" .\make\windows\efsw.sln -m /p:Platform="x64" /p:Configuration="release"
+        msbuild .\make\windows\efsw.sln -m /p:Platform="x64" /p:Configuration="release"
     - name: Run unit tests
       shell: cmd
       run: |
