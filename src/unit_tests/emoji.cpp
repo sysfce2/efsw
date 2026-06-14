@@ -5,30 +5,6 @@
 
 using namespace efsw_test;
 
-#include <iomanip> // std::hex, std::setw, std::setfill
-#include <iostream>
-
-void print_hex_bytes( const std::u32string& s, size_t size ) {
-	for ( int i = 0; i < size; i++) {
-		std::printf( "%08x ", s[i] );
-	}
-	std::cout << "\n";
-}
-
-void print_hex_bytes( const std::string& s ) {
-	for ( unsigned char c : s ) {
-		std::printf( "%02x ", c );
-	}
-	std::cout << "\n";
-}
-
-void print_hex_bytes( const std::wstring& s ) {
-	for ( wchar_t c : s ) {
-		std::printf( "%04x ", c );
-	}
-	std::cout << "\n";
-}
-
 UTEST( Encoding, Utf32String) {
 	const auto emojiString = efsw::String(
 		U"🐈🏳️‍🌈🇺🇸0️⃣✈️™️❤️" );
