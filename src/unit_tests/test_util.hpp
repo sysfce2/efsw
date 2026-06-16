@@ -104,6 +104,17 @@ inline bool createFile( const std::string& path, const std::string& content = ""
 	return true;
 }
 
+inline bool createFileFs( const std::filesystem::path& path, const std::string& content = "" ) {
+	std::ofstream f( path );
+	if ( !f )
+		return false;
+	if ( !content.empty() ) {
+		f << content;
+	}
+	f.close();
+	return true;
+}
+
 inline bool removeFile( const std::string& path ) {
 	std::error_code ec;
 	std::filesystem::remove( path, ec );
