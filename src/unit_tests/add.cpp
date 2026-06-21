@@ -1,4 +1,4 @@
-#include "test_util.hpp"
+﻿#include "test_util.hpp"
 #include "utest.h"
 
 using namespace efsw_test;
@@ -20,6 +20,32 @@ UTEST( Add, SingleFile ) {
 	std::string testFile = testDir + "/test_file.txt";
 	EXPECT_TRUE( createFile( testFile, "test content" ) );
 	EXPECT_TRUE( listener.waitForActions( efsw::Actions::Add, "test_file.txt", 3000 ) );
+
+	fileWatcher.removeWatch( testDir );
+	sleepMs( 300 );
+	removeDirectory( testDir );
+}
+
+
+UTEST( Add, SingleFileEmoji ) {
+	std::string testDir = getTemporaryDirectory();
+	EXPECT_TRUE( createDirectory( testDir ) );
+
+	TestListener listener;
+	efsw::FileWatcher fileWatcher( useGeneric, 100 );
+
+	efsw::WatchID watchId = fileWatcher.addWatch( testDir, &listener, true );
+	EXPECT_TRUE( watchId > 0 );
+
+	fileWatcher.watch();
+
+	sleepMs( 500 );
+
+	std::filesystem::path fileName = u8"test_file🐈.txt";
+
+	std::filesystem::path testFile = testDir / fileName;
+	EXPECT_TRUE( createFileFs( testFile, "test content" ) );
+	EXPECT_TRUE( listener.waitForActions( efsw::Actions::Add, fileName.u8string(), 3000 ) );
 
 	fileWatcher.removeWatch( testDir );
 	sleepMs( 300 );
