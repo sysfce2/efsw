@@ -439,7 +439,7 @@ void WatcherKqueue::moveDirectory( std::string oldPath, std::string newPath, boo
 	if ( NULL != watch ) {
 		std::string npath( newPath );
 		FileSystem::dirAddSlashAtEnd( npath );
-		
+
 		std::vector<std::pair<WatcherKqueue*, std::string>> stack;
 		stack.push_back( std::make_pair( static_cast<WatcherKqueue*>( watch ), npath ) );
 

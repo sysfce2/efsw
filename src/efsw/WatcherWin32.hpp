@@ -46,7 +46,7 @@ WatcherStructWin32* CreateWatch( LPCWSTR szDirectory, bool recursive, DWORD buff
 
 class WatcherWin32 : public Watcher {
   public:
-	WatcherWin32(DWORD dwBufferSize) :
+	WatcherWin32( DWORD dwBufferSize ) :
 		Struct( NULL ),
 		DirHandle( NULL ),
 		Buffer(),
@@ -56,8 +56,8 @@ class WatcherWin32 : public Watcher {
 		Extended( false ),
 		Watch( NULL ),
 		DirName( NULL ) {
-			Buffer.resize(dwBufferSize);
-		}
+		Buffer.resize( dwBufferSize );
+	}
 
 	WatcherStructWin32* Struct;
 	HANDLE DirHandle;

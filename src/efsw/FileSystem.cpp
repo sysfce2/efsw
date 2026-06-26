@@ -1,8 +1,8 @@
+#include <climits>
+#include <cstdlib>
 #include <cstring>
 #include <efsw/FileSystem.hpp>
 #include <efsw/platform/platformimpl.hpp>
-#include <climits>
-#include <cstdlib>
 
 #if EFSW_OS == EFSW_OS_MACOSX
 #include <CoreFoundation/CoreFoundation.h>
@@ -163,8 +163,8 @@ std::string FileSystem::getRealPath( const std::string& path ) {
 }
 
 #if EFSW_PLATFORM == EFSW_PLATFORM_WIN32
-std::wstring FileSystem::getWidePath(const std::string & path) {
-#if defined(USE_FILESYSTEM_PATH_CONVERSION)
+std::wstring FileSystem::getWidePath( const std::string& path ) {
+#if defined( USE_FILESYSTEM_PATH_CONVERSION )
 	return std::filesystem::u8path( path ).wstring();
 #else
 	return String::fromUtf8( path ).toWideString();

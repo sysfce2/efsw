@@ -15,7 +15,8 @@ WatcherFSEvents::~WatcherFSEvents() {
 		FSEventStreamStop( FSStream );
 		FSEventStreamInvalidate( FSStream );
 		if ( NULL != DispatchQueue ) {
-			dispatch_sync( DispatchQueue, ^{} );
+			dispatch_sync( DispatchQueue, ^{
+						   } );
 		}
 		FSEventStreamRelease( FSStream );
 	}

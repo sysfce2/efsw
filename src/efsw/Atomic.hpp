@@ -16,13 +16,9 @@ template <typename T> class Atomic {
 		return *this;
 	}
 
-	explicit operator T() const {
-		return set_.load( std::memory_order_acquire );
-	}
+	explicit operator T() const { return set_.load( std::memory_order_acquire ); }
 
-	T load() const {
-		return set_.load( std::memory_order_acquire );
-	}
+	T load() const { return set_.load( std::memory_order_acquire ); }
 
   private:
 	std::atomic<T> set_;
