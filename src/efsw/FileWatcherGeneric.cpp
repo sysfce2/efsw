@@ -5,8 +5,7 @@
 
 namespace efsw {
 
-FileWatcherGeneric::FileWatcherGeneric( FileWatcher* parent ) :
-	FileWatcherGeneric( parent, 1000 ) {
+FileWatcherGeneric::FileWatcherGeneric( FileWatcher* parent ) : FileWatcherGeneric( parent, 1000 ) {
 	mInitOK = true;
 	mIsGeneric = true;
 }

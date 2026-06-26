@@ -80,7 +80,7 @@ class WatcherFSEvents : public Watcher {
 	void sendFileAction( WatchID watchid, const std::string& dir, const std::string& filename,
 						 Action action, const std::string& oldFilename = "" );
 
-	void sendMissedFileActions( WatchID watchid, const std::string& dir);
+	void sendMissedFileActions( WatchID watchid, const std::string& dir );
 };
 
 } // namespace efsw

@@ -1,5 +1,5 @@
-#include <efsw/efsw.hpp>
 #include <efsw/Debug.hpp>
+#include <efsw/efsw.hpp>
 
 namespace efsw { namespace Errors {
 

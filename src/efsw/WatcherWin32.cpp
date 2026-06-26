@@ -28,11 +28,11 @@ struct EFSW_FILE_NOTIFY_EXTENDED_INFORMATION_EX {
 
 typedef EFSW_FILE_NOTIFY_EXTENDED_INFORMATION_EX* EFSW_PFILE_NOTIFY_EXTENDED_INFORMATION_EX;
 
-typedef BOOL( WINAPI* EFSW_LPREADDIRECTORYCHANGESEXW )( HANDLE hDirectory, LPVOID lpBuffer,
-												   DWORD nBufferLength, BOOL bWatchSubtree,
-												   DWORD dwNotifyFilter, LPDWORD lpBytesReturned,
-												   LPOVERLAPPED lpOverlapped, LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine,
-												   DWORD ReadDirectoryNotifyInformationClass );
+typedef BOOL( WINAPI* EFSW_LPREADDIRECTORYCHANGESEXW )(
+	HANDLE hDirectory, LPVOID lpBuffer, DWORD nBufferLength, BOOL bWatchSubtree,
+	DWORD dwNotifyFilter, LPDWORD lpBytesReturned, LPOVERLAPPED lpOverlapped,
+	LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine,
+	DWORD ReadDirectoryNotifyInformationClass );
 
 static EFSW_LPREADDIRECTORYCHANGESEXW pReadDirectoryChangesExW = NULL;
 
@@ -194,10 +194,11 @@ RefreshResult RefreshWatch( WatcherStructWin32* pWatch ) {
 	pWatch->Watch->Extended = false;
 
 	if ( pReadDirectoryChangesExW ) {
-		bRet = pReadDirectoryChangesExW( pWatch->Watch->DirHandle, pWatch->Watch->Buffer.data(),
+		bRet =
+			pReadDirectoryChangesExW( pWatch->Watch->DirHandle, pWatch->Watch->Buffer.data(),
 									  (DWORD)pWatch->Watch->Buffer.size(), pWatch->Watch->Recursive,
-									  pWatch->Watch->NotifyFilter, NULL, &pWatch->Overlapped,
-										 NULL, EFSW_ReadDirectoryNotifyExtendedInformation ) != 0;
+									  pWatch->Watch->NotifyFilter, NULL, &pWatch->Overlapped, NULL,
+									  EFSW_ReadDirectoryNotifyExtendedInformation ) != 0;
 		if ( bRet ) {
 			ret = RefreshResult::SucessEx;
 			pWatch->Watch->Extended = true;
@@ -239,8 +240,8 @@ void DestroyWatch( WatcherStructWin32* pWatch ) {
 WatcherStructWin32* CreateWatch( LPCWSTR szDirectory, bool recursive, DWORD bufferSize,
 								 DWORD notifyFilter, HANDLE iocp, bool preventDeletion ) {
 	WatcherStructWin32* tWatch = new WatcherStructWin32();
-	WatcherWin32* pWatch = new WatcherWin32(bufferSize);
-	if (tWatch)
+	WatcherWin32* pWatch = new WatcherWin32( bufferSize );
+	if ( tWatch )
 		tWatch->Watch = pWatch;
 
 	DWORD shareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;

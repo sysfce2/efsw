@@ -26,7 +26,6 @@ UTEST( Add, SingleFile ) {
 	removeDirectory( testDir );
 }
 
-
 UTEST( Add, SingleFileEmoji ) {
 	std::string testDir = getTemporaryDirectory();
 	EXPECT_TRUE( createDirectory( testDir ) );

@@ -2,9 +2,9 @@
 #define EFSW_FILEINFO_HPP
 
 #include <efsw/base.hpp>
-#include <vector>
 #include <map>
 #include <string>
+#include <vector>
 
 namespace efsw {
 
